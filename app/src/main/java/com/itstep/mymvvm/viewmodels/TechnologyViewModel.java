@@ -1,8 +1,12 @@
 package com.itstep.mymvvm.viewmodels;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.itstep.mymvvm.MainActivity;
@@ -22,11 +26,6 @@ public class TechnologyViewModel {
 
         ListView list = activity.findViewById(R.id.technologyList);
 
-//        ArrayAdapter<TechnologyModel> adapter =  new ArrayAdapter<>(
-//                activity,
-//                android.R.layout.simple_list_item_1,
-//                TechnologyRepository.getInstance().getTechnologies()
-//        );
         ArrayAdapter<TechnologyModel> adapter =  new TechnologyListViewAdapter(
                 activity,
                 R.layout.technology_listview_item,
@@ -39,11 +38,32 @@ public class TechnologyViewModel {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TechnologyModel newModel = TechnologyRepository.createModel();
-                newModel.setAge(0);
-                newModel.setName("Test");
-                TechnologyRepository.getInstance().getTechnologies().add(newModel);
-                adapter.notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Create Technology");
+                View dialogView = LayoutInflater.from(activity).inflate(R.layout.edit_technology_dialog, null);
+                EditText editName = dialogView.findViewById(R.id.edit_technology_name);
+                EditText editAge = dialogView.findViewById(R.id.edit_technology_age);
+                builder.setView(dialogView);
+
+                // Установить слушатель для кнопок "Save" и "Cancel"
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newName = editName.getText().toString();
+                        int newAge = Integer.parseInt(editAge.getText().toString());
+                        // Создать новую модель с введенными данными
+                        TechnologyModel newModel = new TechnologyModel(newName, newAge);
+                        // Добавить новую модель в список и обновить адаптер
+
+                        TechnologyRepository repo = TechnologyRepository.getInstance();
+                        repo.getTechnologies().add(newModel);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+
+                // Отобразить диалоговое окно
+                builder.create().show();
             }
         });
 

@@ -65,11 +65,8 @@ public class TechnologyListViewAdapter extends ArrayAdapter<TechnologyModel>
         btnEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // 2. Получаем текущий объект TechnologyModel для этой позиции
                 TechnologyModel model = models.get(position);
 
-                // 3. Создаем диалоговое окно для редактирования данных
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Edit Technology");
                 View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.edit_technology_dialog, null);
@@ -79,7 +76,6 @@ public class TechnologyListViewAdapter extends ArrayAdapter<TechnologyModel>
                 editAge.setText(String.valueOf(model.getAge()));
                 builder.setView(dialogView);
 
-                // 4. Устанавливаем слушатель для кнопок "Save" и "Cancel"
                 builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -94,7 +90,6 @@ public class TechnologyListViewAdapter extends ArrayAdapter<TechnologyModel>
                 });
                 builder.setNegativeButton("Cancel", null);
 
-                // 5. Отображаем диалоговое окно
                 builder.create().show();
 
             }
