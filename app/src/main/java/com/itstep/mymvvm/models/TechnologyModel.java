@@ -15,8 +15,6 @@ public class TechnologyModel {
         this.age = age;
     }
 
-
-
     public int getAge() {
         return age;
     }
@@ -32,7 +30,6 @@ public class TechnologyModel {
     public void setName(String name) {
         this.name = name;
     }
-
 
     @NonNull
     @Override

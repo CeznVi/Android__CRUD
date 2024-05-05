@@ -31,7 +31,6 @@ public class TechnologyRepository {
     public static TechnologyRepository getInstance() {
         if(instance == null)
             instance = new TechnologyRepository();
-
         return instance;
     }
 
