@@ -1,7 +1,10 @@
 package com.itstep.mymvvm.viewmodels;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -56,8 +59,8 @@ public class TechnologyViewModel {
                         // Добавить новую модель в список и обновить адаптер
 
                         TechnologyRepository repo = TechnologyRepository.getInstance();
-                        repo.getTechnologies().add(newModel);
-                        adapter.notifyDataSetChanged();
+                       repo.getTechnologies().add(newModel);
+                       adapter.notifyDataSetChanged();
                     }
                 });
                 builder.setNegativeButton("Cancel", null);
@@ -68,6 +71,16 @@ public class TechnologyViewModel {
         });
 
 
+    }
+
+    private void addTechnology(String name, int age) {
+        SQLiteOpenHelper dbHelper = null;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("age", age);
+        db.insert("technologies", null, values);
+        db.close();
     }
 
 }
